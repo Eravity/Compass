@@ -2,13 +2,14 @@
 import Logo from "./Logo";
 import Link from "next/link";
 import Image from "next/image";
-import { calendar, tasks, reporting, dashboard } from "./icons/navigationIcons";
+import { calendar, tasks, reporting, dashboard, meeting } from "./icons/navigationIcons";
 import UserProfile from "./UserProfile";
 import { usePathname } from "next/navigation";
 
 const navItems = [
   { name: "Dashboard", href: "/", type: "general", icon: dashboard },
   { name: "Calendar", href: "/calendar", type: "general", icon: calendar },
+  { name: "Meeting", href: "/meeting", type: "general", icon: meeting },
   { name: "Reporting", href: "/reporting", type: "ai", icon: reporting },
   { name: "Tasks", href: "/tasks", type: "ai", icon: tasks },
 ];

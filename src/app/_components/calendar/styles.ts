@@ -8,9 +8,8 @@ export const calendarStyles = `
   --fc-button-bg-color: #fff;
   --fc-button-hover-bg-color: #f0f0f0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  border-radius: 12px;
   padding-top: 0;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 /* Toolbar */
@@ -61,6 +60,13 @@ export const calendarStyles = `
 .calendar-wrapper .fc-theme-standard td,
 .calendar-wrapper .fc-theme-standard th {
   border-color: var(--fc-border-color) !important;
+}
+
+/* Bottom border radius for calendar */
+.calendar-wrapper .fc .fc-scrollgrid {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  overflow: hidden;
 }
 
 .calendar-wrapper .fc-col-header-cell {
