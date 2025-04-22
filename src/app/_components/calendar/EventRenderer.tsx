@@ -20,20 +20,17 @@ const EventRenderer = ({ event, timeText }: EventRendererProps) => {
 
   return (
     <div
+      className="flex flex-col md:flex-row items-center justify-between w-full p-1 space-y-1 md:space-y-0 md:space-x-2 rounded"
       style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        width: "100%",
-        color: textColor,
         backgroundColor: bgColor,
-        border: `1.5px solid ${borderColor}`,
-        padding: "2px 6px",
-        borderRadius: "4px",
+        color: textColor,
+        border: `2px solid ${borderColor}`,
       }}
     >
-      <span className="font-semibold">{event.title}</span>
-      <span className="font-semibold">{timeText}</span>
+      <span className="font-semibold truncate text-xs md:text-sm">
+        {event.title}
+      </span>
+      <span className="font-semibold text-xs md:text-sm">{timeText}</span>
     </div>
   );
 };

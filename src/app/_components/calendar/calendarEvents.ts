@@ -24,7 +24,7 @@ const calendarEvents = [
     const minute = Math.random() < 0.5 ? "00" : "30";
     const theme = getRandomTheme();
     return {
-      title: `Event ${i + 6}`,
+      title: `Event ${i}`,
       date: `2025-04-${String(day).padStart(2, "0")}T${String(hour).padStart(
         2,
         "0"

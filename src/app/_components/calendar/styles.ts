@@ -292,7 +292,8 @@ export const calendarStyles = `
 .calendar-wrapper .fc-day-today .fc-daygrid-day-number {
   background-color: #100;
   color: #fff;
-  border-radius: 50%;
+  border-radius: 5px;
+  font-weight: bold;
 }
 
 /* TimeGrid (week/day) slot height */

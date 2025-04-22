@@ -16,14 +16,28 @@ export interface CalendarEvent {
 }
 
 export const useCalendarEvents = () => {
-  // Initialize events with proper mapping of date to start
-  const [events, setEvents] = useState<CalendarEvent[]>(
-    calendarEvents.map(event => ({
-      ...event,
-      start: event.date,
-    }))
-  );
-  const [filteredEvents, setFilteredEvents] = useState<CalendarEvent[]>(events);
+  interface SourceEvent {
+    date: string | Date;
+    title: string;
+    backgroundColor?: string;
+    borderColor?: string;
+    textColor?: string;
+    description?: string;
+    allDay?: boolean;
+    [key: string]: string | number | boolean | Date | undefined; // Allow other properties if necessary
+  }
+  
+    // Initialize events with proper mapping of date to start
+    const [events, setEvents] = useState<CalendarEvent[]>(
+      (calendarEvents as SourceEvent[]).map((event: SourceEvent): CalendarEvent => {
+        const { date, ...rest } = event;
+        return {
+          ...rest,
+          start: date,
+        };
+      })
+    );
+    const [filteredEvents, setFilteredEvents] = useState<CalendarEvent[]>(events);
   
   // Handle adding a new event
   const addEvent = useCallback((newEvent: CalendarEvent) => {
@@ -33,25 +47,17 @@ export const useCalendarEvents = () => {
   
   // Handle search functionality
   const handleSearch = useCallback((query: string) => {
-    if (!query.trim()) {
-      // If search is empty, show all events
+    const trimmed = String(query ?? '').trim();
+    if (!trimmed) {
       setFilteredEvents(events);
       return;
     }
-
-    // Filter events based on the query
-    const lowercaseQuery = query.toLowerCase();
+    const lowercaseQuery = trimmed.toLowerCase();
     const filtered = events.filter(event => {
-      // Always check title
-      const titleMatch = event.title.toLowerCase().includes(lowercaseQuery);
-      
-      // Safely check description if it exists
-      const descriptionMatch = typeof event.description === 'string' && 
-        event.description.toLowerCase().includes(lowercaseQuery);
-      
-      return titleMatch || descriptionMatch;
+      const title = String(event.title ?? '').toLowerCase();
+      const description = String(event.description ?? '').toLowerCase();
+      return title.includes(lowercaseQuery) || description.includes(lowercaseQuery);
     });
-    
     setFilteredEvents(filtered);
   }, [events]);
 
