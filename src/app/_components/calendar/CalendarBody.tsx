@@ -5,8 +5,8 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { CalendarEvent } from "./hooks/useCalendarEvents";
 import EventRenderer from "./EventRenderer";
-import { getRandomColorTheme } from "./themes";
 import { ViewApi } from "@fullcalendar/core/index.js";
+import EventForm from "./EventForm";
 
 interface CalendarBodyProps {
   events: CalendarEvent[];
@@ -21,11 +21,9 @@ interface SelectedInfo {
   defaultDurationHrs: number;
 }
 
-const CalendarBody = forwardRef<FullCalendar, CalendarBodyProps>(
-  ({ events, onEventAdd, onDatesSet }, ref) => {
-    const [pending, setPending] = useState<SelectedInfo | null>(null);
-    const [newTitle, setNewTitle] = useState("");
-    const [newDuration, setNewDuration] = useState<number>(0);
+const CalendarBody = forwardRef<FullCalendar, CalendarBodyProps>(({ events, onDatesSet }, ref) => {
+  const [pending, setPending] = useState<SelectedInfo | null>(null);
+
 
     const handleSelect = (info: {
       start: Date;
@@ -42,28 +40,7 @@ const CalendarBody = forwardRef<FullCalendar, CalendarBodyProps>(
         view: info.view,
         defaultDurationHrs: diffHrs || 0.5,
       });
-      setNewTitle("");
-      setNewDuration(diffHrs || 0.5);
     };
-
-    const createEvent = () => {
-      if (!pending || !newTitle.trim()) return;
-      const startDate = new Date(pending.startStr);
-      const endDate = new Date(startDate.getTime() + newDuration * 3600000);
-      const colorTheme = getRandomColorTheme();
-      const event = {
-        title: newTitle,
-        start: pending.startStr,
-        end: endDate.toISOString(),
-        allDay: pending.allDay,
-        ...colorTheme,
-      };
-      pending.view.calendar.addEvent(event);
-      onEventAdd(event);
-      setPending(null);
-    };
-
-    const cancelCreate = () => setPending(null);
 
     return (
       <>
@@ -83,34 +60,7 @@ const CalendarBody = forwardRef<FullCalendar, CalendarBodyProps>(
         }
         `}
         </style>
-        {pending && (
-          <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-white p-2 shadow rounded z-20">
-            <input
-              className="border px-2 py-1 mr-2"
-              placeholder="Event title"
-              value={newTitle}
-              onChange={(e) => setNewTitle(e.target.value)}
-            />
-            <input
-              type="number"
-              step="0.25"
-              min="0.25"
-              className="w-20 border px-2 py-1 mr-2"
-              value={newDuration}
-              onChange={(e) => setNewDuration(parseFloat(e.target.value))}
-              placeholder="Duration (hrs)"
-            />
-            <button
-              className="px-2 py-1 bg-black text-white mr-1"
-              onClick={createEvent}
-            >
-              Add
-            </button>
-            <button className="px-2 py-1" onClick={cancelCreate}>
-              Cancel
-            </button>
-          </div>
-        )}
+        {pending && <EventForm/ >}
         <FullCalendar
           ref={ref}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -136,7 +86,7 @@ const CalendarBody = forwardRef<FullCalendar, CalendarBodyProps>(
           datesSet={onDatesSet}
           titleFormat={{ year: "numeric", month: "long" }}
           editable={true}
-          eventMaxStack={1}
+          eventMaxStack={3}
           selectable={true}
           select={handleSelect}
           fixedWeekCount={false}
