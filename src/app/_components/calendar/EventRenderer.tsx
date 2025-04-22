@@ -35,22 +35,21 @@ const EventRenderer = ({ event, timeText, arg }: EventRendererProps) => {
   return (
     <HoverCard.Root openDelay={100} closeDelay={150}>
       <HoverCard.Trigger asChild>
-        <div className="flex flex-col gap-1">
-          <div
-            className="flex flex-col md:flex-row items-center justify-between w-full p-1 space-y-1 md:space-y-0 md:space-x-2 rounded overflow-hidden min-h-full h-full"
-            style={{
-              backgroundColor: bgColor,
-              color: textColor,
-              border: `2px solid ${borderColor}`,
-            }}
-          >
-            <span className="font-semibold truncate text-xs md:text-sm flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
-              {event.title}
-            </span>
-            <span className="font-semibold text-xs md:text-sm flex-shrink-0">
-              {timeText}
-            </span>
-          </div>
+        <div
+          className="flex flex-col md:flex-row items-center justify-between w-full p-1 space-y-1 md:space-y-0 md:space-x-2 rounded overflow-hidden min-h-full h-full"
+          style={{
+            backgroundColor: bgColor,
+            color: textColor,
+            border: `2px solid ${borderColor}`,
+            boxSizing: 'border-box',
+          }}
+        >
+          <span className="font-semibold truncate text-xs md:text-sm flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+            {event.title}
+          </span>
+          <span className="font-semibold text-xs md:text-sm flex-shrink-0">
+            {timeText}
+          </span>
         </div>
       </HoverCard.Trigger>
       <HoverCard.Portal>

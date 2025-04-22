@@ -9,14 +9,14 @@ export const calendarStyles = `
   --fc-button-hover-bg-color: #f0f0f0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   padding-top: 0;
+  margin: 0 auto;
 }
 
 /* Toolbar */
 .calendar-wrapper .fc .fc-toolbar {
   padding: 8px 16px;
-  border-top: 1px solid #eaeaea;
-  border-left: 1px solid #eaeaea;
-  border-right: 1px solid #eaeaea;
+  border: 1px solid var(--fc-border-color);
+  border-bottom: none;
   border-radius: 12px 12px 0 0;
   background: #fff;
   margin-bottom: 0;
@@ -27,6 +27,7 @@ export const calendarStyles = `
   font-weight: 600;
 }
 
+/* Button styles */
 .calendar-wrapper .fc .fc-button {
   border-radius: 6px;
   text-transform: capitalize;
@@ -47,6 +48,17 @@ export const calendarStyles = `
   color: #fff;
   background-color: var(--fc-button-active-bg-color);
   border-color: var(--fc-button-active-border-color);
+}
+
+/* Custom "Add Event" button */
+.fc-addEvent-button {
+  background-color: #000 !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  border: 1px solid #000 !important;
+}
+.fc-addEvent-button:hover {
+  background-color: #333 !important;
 }
 
 /* View harness spacing */
@@ -114,11 +126,7 @@ export const calendarStyles = `
   padding: 0;
   top: 4px !important;
   left: 4px !important;
-}
-
-/* Calendar width control */
-.calendar-wrapper .fc {
-  margin: 0 auto;
+  font-weight: bold;
 }
 
 /* Day number */
@@ -137,14 +145,21 @@ export const calendarStyles = `
 /* Events container */
 .calendar-wrapper .fc-daygrid-day-events {
   margin-top: 36px;
+  padding: 2px 0 !important;
 }
 
-/* Events styling - complete rewrite to fix visual issues */
-.calendar-wrapper .fc .fc-timegrid-event,
-.calendar-wrapper .fc .fc-daygrid-event {
-  margin: 1px 2px !important;
-  box-shadow: none !important;
-  overflow: hidden !important;
+/* Events styling - remove default styling */
+.calendar-wrapper .fc-event,
+.calendar-wrapper .fc-event-dot,
+.calendar-wrapper .fc-event-start,
+.calendar-wrapper .fc-event-end,
+.calendar-wrapper .fc-event-today,
+.calendar-wrapper .fc-timegrid-event,
+.calendar-wrapper .fc-daygrid-event,
+.calendar-wrapper .fc-h-event,
+.calendar-wrapper .fc-v-event {
+  border: none !important;
+  background: transparent !important;
 }
 
 /* Make events take full width in month view */
@@ -163,20 +178,6 @@ export const calendarStyles = `
   width: 100% !important;
 }
 
-/* Remove ALL default borders and backgrounds */
-.calendar-wrapper .fc-event,
-.calendar-wrapper .fc-event-dot,
-.calendar-wrapper .fc-event-start,
-.calendar-wrapper .fc-event-end,
-.calendar-wrapper .fc-event-today,
-.calendar-wrapper .fc-timegrid-event,
-.calendar-wrapper .fc-daygrid-event,
-.calendar-wrapper .fc-h-event,
-.calendar-wrapper .fc-v-event {
-  border: none !important;
-  background: transparent !important;
-}
-
 /* Event main container */
 .calendar-wrapper .fc-event-main {
   border-radius: 4px !important;
@@ -184,8 +185,9 @@ export const calendarStyles = `
   margin: 0 !important;
   width: 100% !important;
   box-sizing: border-box !important;
-  min-height: 100% !important;
-  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden;
 }
 
 /* Event content alignment */
@@ -195,6 +197,8 @@ export const calendarStyles = `
   margin-right: 3px !important;
   display: inline-block !important;
   font-weight: normal !important;
+}
+
 .calendar-wrapper .fc-event-title {
   font-size: 0.9em !important;
   font-weight: 500 !important;
@@ -205,26 +209,17 @@ export const calendarStyles = `
   word-break: break-word !important;
   line-height: 1.2em !important;
 }
-  display: inline-block !important;
-}
 
 /* Ensure event content fills space */
 .calendar-wrapper .fc-event-main-frame {
   display: flex !important;
   flex-direction: column !important;
-  height: 100% !important;
 }
 
 /* Fix for multi-day events */
 .calendar-wrapper .fc-daygrid-block-event .fc-event-time,
 .calendar-wrapper .fc-daygrid-block-event .fc-event-title {
   padding: 0 !important;
-}
-
-/* Remove duplicate spacing */
-.calendar-wrapper .fc-daygrid-day-events {
-  padding: 2px 0 !important;
-  margin-top: 28px !important;
 }
 
 /* More link styling */
@@ -241,95 +236,25 @@ export const calendarStyles = `
   z-index: 100 !important;
 }
 
-/* Custom button styles */
-.fc-addEvent-button {
-  background-color: black !important;
-  color: white !important;
-  font-weight: 600 !important;
-  border: 1px solid black !important;
-}
-
-.fc-addEvent-button:hover {
-  background-color: #333 !important;
-}
-
-.fc-timegrid-slot {
-  height: 40px !important;
-}
-
-/* Base & toolbar */
-.calendar-wrapper .fc {
-  --fc-border-color: #eaeaea;
-  --fc-button-text-color: #000;
-  --fc-button-bg-color: #fff;
-  --fc-button-hover-bg-color: #f0f0f0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-.calendar-wrapper .fc .fc-toolbar {
-  padding: 8px 16px;
-  border: 1px solid var(--fc-border-color);
-  border-bottom: none;
-  border-radius: 12px 12px 0 0;
-  background: #fff;
-  margin-bottom: 0;
-}
-
-.calendar-wrapper .fc .fc-button {
-  border-radius: 6px;
-  text-transform: capitalize;
-  font-weight: 500;
-  padding: 6px 12px;
-  font-size: 0.875rem;
-  box-shadow: none;
-}
-
-.calendar-wrapper .fc .fc-button:focus,
-.calendar-wrapper .fc .fc-button:active {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-/* Custom "Add Event" button */
-.fc-addEvent-button {
-  background-color: #000 !important;
-  color: #fff !important;
-  font-weight: 600 !important;
-  border: 1px solid #000 !important;
-}
-.fc-addEvent-button:hover {
-  background-color: #333 !important;
-}
-
-/* DayGrid (month) specifics */
-.calendar-wrapper .fc-daygrid-day {
-  height: 160px;
-  background-color: #fff;
-}
-.calendar-wrapper .fc-day-other {
-  background-color: #f5f5f5;
-}
-.calendar-wrapper .fc-day-today .fc-daygrid-day-number {
-  background-color: #100;
-  color: #fff;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-/* TimeGrid (week/day) slot height */
-.calendar-wrapper .fc .fc-timegrid-slot {
-  height: 40px !important;
-}
-
-/* Ensure events fill their slot heights */
-.calendar-wrapper .fc .fc-timegrid-event {
+/* Fix for event positioning and overlap - time grid specific */
+.calendar-wrapper .fc-timegrid-event {
+  position: absolute !important;
+  width: auto !important;
+  right: 0 !important;
+  left: 0 !important;
   margin: 1px 2px !important;
   box-shadow: none !important;
   overflow: hidden !important;
 }
-.calendar-wrapper .fc-event-main {
-  border-radius: 4px !important;
-  padding: 4px 6px !important;
-  box-sizing: border-box !important;
+
+.calendar-wrapper .fc-timegrid-col-events {
+  position: relative !important;
+  z-index: 1 !important;
+  margin: 0 !important;
+}
+
+.calendar-wrapper .fc .fc-timegrid-now-indicator-container {
+  z-index: 10 !important;
+  position: relative !important;
 }
 `;
