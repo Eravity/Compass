@@ -32,6 +32,14 @@ const EventRenderer = ({ event, timeText, arg }: EventRendererProps) => {
     textColor: textColor = isLightColor(bgColor) ? "#333" : "#fff",
   } = event;
 
+  const getStartingHour = (time: string) => {
+    if (!time) return "";
+    const startTime = time.split(" - ")[0];
+    return startTime;
+  };
+
+  const startTime = getStartingHour(timeText);
+
   return (
     <HoverCard.Root openDelay={100} closeDelay={150}>
       <HoverCard.Trigger asChild>
@@ -48,7 +56,7 @@ const EventRenderer = ({ event, timeText, arg }: EventRendererProps) => {
             {event.title}
           </span>
           <span className="font-semibold text-xs md:text-sm flex-shrink-0">
-            {timeText}
+            {startTime}
           </span>
         </div>
       </HoverCard.Trigger>
@@ -64,7 +72,7 @@ const EventRenderer = ({ event, timeText, arg }: EventRendererProps) => {
               <h3 className="font-medium text-gray-800 mb-1">
                 {arg.event.title}
               </h3>
-              <p className="text-sm text-gray-500">{arg.timeText}</p>
+              <p className="text-sm text-gray-500">{timeText}</p>
               {arg.event.extendedProps?.description && (
                 <p className="text-xs text-gray-600 mt-2 line-clamp-2">
                   {arg.event.extendedProps.description}
