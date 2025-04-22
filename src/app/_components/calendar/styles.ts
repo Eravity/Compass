@@ -147,6 +147,22 @@ export const calendarStyles = `
   overflow: hidden !important;
 }
 
+/* Make events take full width in month view */
+.calendar-wrapper .fc-daygrid-event-harness {
+  width: calc(100% - 4px) !important;
+  margin-left: 2px !important;
+  margin-right: 2px !important;
+}
+
+.calendar-wrapper .fc-daygrid-event {
+  width: 100% !important;
+}
+
+.calendar-wrapper .fc-daygrid-dot-event {
+  display: block !important;
+  width: 100% !important;
+}
+
 /* Remove ALL default borders and backgrounds */
 .calendar-wrapper .fc-event,
 .calendar-wrapper .fc-event-dot,
@@ -168,6 +184,8 @@ export const calendarStyles = `
   margin: 0 !important;
   width: 100% !important;
   box-sizing: border-box !important;
+  min-height: 100% !important;
+  height: auto !important;
 }
 
 /* Event content alignment */
@@ -177,14 +195,16 @@ export const calendarStyles = `
   margin-right: 3px !important;
   display: inline-block !important;
   font-weight: normal !important;
-}
-
 .calendar-wrapper .fc-event-title {
   font-size: 0.9em !important;
   font-weight: 500 !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  white-space: nowrap !important;
+  white-space: normal !important;
+  display: block !important;
+  word-break: break-word !important;
+  line-height: 1.2em !important;
+}
   display: inline-block !important;
 }
 
@@ -270,7 +290,7 @@ export const calendarStyles = `
   box-shadow: none !important;
 }
 
-/* Custom “Add Event” button */
+/* Custom "Add Event" button */
 .fc-addEvent-button {
   background-color: #000 !important;
   color: #fff !important;

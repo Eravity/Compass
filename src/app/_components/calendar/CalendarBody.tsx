@@ -5,7 +5,11 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { CalendarEvent } from "./hooks/useCalendarEvents";
 import EventRenderer from "./EventRenderer";
-import { ViewApi, EventMountArg, FormatterInput } from "@fullcalendar/core/index.js";
+import {
+  ViewApi,
+  EventMountArg,
+  FormatterInput,
+} from "@fullcalendar/core/index.js";
 import EventForm from "./EventForm";
 import { useTimeFormats } from "./hooks/useTimeFormats";
 
@@ -142,9 +146,9 @@ const CalendarBody = forwardRef<FullCalendar, CalendarBodyProps>(
           slotEventOverlap={false}
           eventClassNames="calendar-event"
           eventContent={(arg) => (
-            <EventRenderer event={arg.event} timeText={arg.timeText} />
+            <EventRenderer event={arg.event} timeText={arg.timeText} arg={arg} />
           )}
-          eventDidMount={handleEventDidMount} // Dynamic height
+          eventDidMount={handleEventDidMount}
           dayMaxEvents={3}
           moreLinkContent={({ num }) => `+${num} more`}
         />

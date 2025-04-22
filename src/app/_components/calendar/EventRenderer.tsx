@@ -1,5 +1,6 @@
 import React from "react";
 import { isLightColor } from "./utils";
+import * as HoverCard from "@radix-ui/react-hover-card";
 
 interface CalendarEvent {
   title: string;
@@ -8,30 +9,75 @@ interface CalendarEvent {
   textColor?: string;
 }
 
-interface EventRendererProps {
-  event: CalendarEvent;
+interface EventArg {
+  event: {
+    title: string;
+    extendedProps?: {
+      description?: string;
+    };
+  };
   timeText: string;
 }
 
-const EventRenderer = ({ event, timeText }: EventRendererProps) => {
-  const bgColor = event.backgroundColor || "#6366f1";
-  const borderColor = event.borderColor || bgColor;
-  const textColor = event.textColor || (isLightColor(bgColor) ? "#333" : "#fff");
+interface EventRendererProps {
+  event: CalendarEvent;
+  timeText: string;
+  arg: EventArg;
+}
+
+const EventRenderer = ({ event, timeText, arg }: EventRendererProps) => {
+  const {
+    backgroundColor: bgColor = "#6366f1",
+    borderColor: borderColor = bgColor,
+    textColor: textColor = isLightColor(bgColor) ? "#333" : "#fff",
+  } = event;
 
   return (
-    <div
-      className="flex flex-col md:flex-row items-center justify-between w-full p-1 space-y-1 md:space-y-0 md:space-x-2 rounded"
-      style={{
-        backgroundColor: bgColor,
-        color: textColor,
-        border: `2px solid ${borderColor}`,
-      }}
-    >
-      <span className="font-semibold truncate text-xs md:text-sm">
-        {event.title}
-      </span>
-      <span className="font-semibold text-xs md:text-sm">{timeText}</span>
-    </div>
+    <HoverCard.Root openDelay={100} closeDelay={150}>
+      <HoverCard.Trigger asChild>
+        <div className="flex flex-col gap-1">
+          <div
+            className="flex flex-col md:flex-row items-center justify-between w-full p-1 space-y-1 md:space-y-0 md:space-x-2 rounded overflow-hidden min-h-full h-full"
+            style={{
+              backgroundColor: bgColor,
+              color: textColor,
+              border: `2px solid ${borderColor}`,
+            }}
+          >
+            <span className="font-semibold truncate text-xs md:text-sm flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+              {event.title}
+            </span>
+            <span className="font-semibold text-xs md:text-sm flex-shrink-0">
+              {timeText}
+            </span>
+          </div>
+        </div>
+      </HoverCard.Trigger>
+      <HoverCard.Portal>
+        <HoverCard.Content
+          side="top"
+          className={`w-64 bg-white/95 backdrop-blur-sm border shadow-sm rounded-md p-3 z-50 animate-in fade-in-50 duration-150 stroke"
+          sideOffset={20}`}
+          style={{border: `1px solid ${borderColor}`}}
+        >
+          <div className="relative">
+            <div className="pl-3">
+              <h3 className="font-medium text-gray-800 mb-1">
+                {arg.event.title}
+              </h3>
+              <p className="text-sm text-gray-500">{arg.timeText}</p>
+              {arg.event.extendedProps?.description && (
+                <p className="text-xs text-gray-600 mt-2 line-clamp-2">
+                  {arg.event.extendedProps.description}
+                </p>
+              )}
+            </div>
+          </div>
+              <div className="w-2 h-full absolute left-0 top-0 rounded-l-md" style={{backgroundColor: bgColor}}/>
+          <HoverCard.Arrow className="fill-white" />
+        </HoverCard.Content>
+      </HoverCard.Portal>
+    </HoverCard.Root>
   );
 };
 
